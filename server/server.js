@@ -140,12 +140,12 @@ app.get('/api/films/:id/characters', async (req, res) => {
         const {id} = req.params;
         const client = await MongoClient.connect(url);
         const db = client.db(dbName);
-        const collection = db.collection("character");
-        const character = await collection.find({"id":+id}).toArray();
-        const characrter_ids = character.map(i => i.characrter_id);
+        const collection = db.collection('films_characters');
+        const ids = await collection.find({"film_id":+id}).toArray();
+        const film_ids = ids.map(i => i.character_id);
         const character_collection = db.collection("characters");
-        const finds = await Promise.all(characrter_ids.map(async (i) => {
-            return (await character_collection.find({"id":1}).toArray());}));
+        const finds = await Promise.all(film_ids.map(async (i) => {
+            return (await character_collection.find({"id":i}).toArray());}));
         res.json(finds);
     } catch (err) {
         console.error("Error:", err);
@@ -158,12 +158,12 @@ app.get('/api/characters/:id/films', async (req, res) => {
         const {id} = req.params;
         const client = await MongoClient.connect(url);
         const db = client.db(dbName);
-        const collection = db.collection("characters");
-        const character = await collection.find({"id":+id}).toArray();
-        const characrter_ids = character.map(i => i.characrter_id);
-        const character_collection = db.collection("film_characters");
-        const finds = await Promise.all(characrter_ids.map(async (i) => {
-            return (await character_collection.find({"id":1}).toArray());}));
+        const collection = db.collection("films_characters");
+        const character = await collection.find({"character_id":+id}).toArray();
+        const character_ids = character.map(i => i.film_id);
+        const character_collection = db.collection("films");
+        const finds = await Promise.all(character_ids.map(async (i) => {
+            return (await character_collection.find({"id":i}).toArray());}));
         res.json(finds);
     } catch (err) {
         console.error("Error:", err);
@@ -176,13 +176,13 @@ app.get('/api/planets/:id/characters', async (req, res) => {
         const {id} = req.params;
         const client = await MongoClient.connect(url);
         const db = client.db(dbName);
-        const collection = db.collection("planet");
-        const planet = await collection.find({"id":+id}).toArray();
-        const characrter_ids = character.map(i => i.characrter_id);
-        const character_collection = db.collection("characters");
-        const finds = await Promise.all(characrter_ids.map(async (i) => {
-            return (await character_collection.find({"id":1}).toArray());}));
-        res.json(finds);
+        const collection = db.collection("characters");
+        const planet = await collection.find({"homeworld":+id}).toArray();
+        // const character_ids = planet.map(i => i.character_id);
+        // const character_collection = db.collection("characters");
+        // const finds = await Promise.all(character_ids.map(async (i) => {
+        //     return (await character_collection.find({"homeworld":+id}).toArray());}));
+        res.json(planet);
     } catch (err) {
         console.error("Error:", err);
         res.status(500).send("Hmmm, something smells... No characters for you! ☹");
