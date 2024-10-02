@@ -178,10 +178,6 @@ app.get('/api/planets/:id/characters', async (req, res) => {
         const db = client.db(dbName);
         const collection = db.collection("characters");
         const planet = await collection.find({"homeworld":+id}).toArray();
-        // const character_ids = planet.map(i => i.character_id);
-        // const character_collection = db.collection("characters");
-        // const finds = await Promise.all(character_ids.map(async (i) => {
-        //     return (await character_collection.find({"homeworld":+id}).toArray());}));
         res.json(planet);
     } catch (err) {
         console.error("Error:", err);
