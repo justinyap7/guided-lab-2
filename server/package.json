@@ -47,8 +47,6 @@
     "mime": "^1.6.0",
     "mime-db": "^1.52.0",
     "mime-types": "^2.1.35",
-    "module": "^1.2.5",
-    "mongodb": "^6.9.0",
     "ms": "^2.0.0",
     "negotiator": "^0.6.3",
     "object-inspect": "^1.13.2",
