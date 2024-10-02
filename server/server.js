@@ -107,8 +107,10 @@ app.get('/api/planets/:id/films', async (req, res) => {
         res.status(500).send('Error');
     }
 });
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);    try {
+
+
+app.get('/api/planets', async (req, res) => {
+    try {
         const client = await MongoClient.connect(url);
         const db = client.db(dbName);
         const collection = db.collection("planets");
